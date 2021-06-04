@@ -1,4 +1,7 @@
+-r requirements.txt
+
 pylint>=2.8.3
 black>=21.5b2
 mypy>=0.812
 docker-compose>=1.29.2
+
