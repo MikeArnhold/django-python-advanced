@@ -1,4 +1,4 @@
-"""Model tests"""
+"""test models"""
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
@@ -41,12 +41,11 @@ class ModelTests(TestCase):
                 password="Testpass123",
             )
 
-    def test_create_new_superuser(self) -> None:
-        """create new superuser"""
+    def test_new_user_is_saved(self) -> None:
+        """new user is saved"""
 
-        user = get_user_model().objects.create_superuser(
+        user = get_user_model().objects.create_user(
             email="test@test.com",
             password="Testpass123",
         )
-        self.assertTrue(user.is_superuser)
-        self.assertTrue(user.is_staff)
+        self.assertIsNotNone(user.pk)

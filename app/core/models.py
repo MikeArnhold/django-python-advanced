@@ -8,6 +8,8 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 
+from .utils import create_superuser
+
 
 class UserManager(BaseUserManager):
     """custom user manager"""
@@ -29,12 +31,7 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email: str, password: str) -> "User":
         """create new superuser"""
 
-        user = self.create_user(email, password)
-        user.is_staff = True
-        user.is_superuser = True
-        user.save(using=self._db)
-
-        return user
+        return create_superuser(self.create_user, email, password)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
