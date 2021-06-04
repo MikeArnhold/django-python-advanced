@@ -1,6 +1,8 @@
-"""Model tests"""
+"""test models"""
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+
+UserModel = get_user_model()
 
 
 class ModelTests(TestCase):
@@ -12,7 +14,7 @@ class ModelTests(TestCase):
         email = "test@test.com"
         password = "Testpass123"
 
-        user = get_user_model().objects.create_user(
+        user = UserModel.objects.create_user(
             email=email,
             password=password,
         )
@@ -25,7 +27,7 @@ class ModelTests(TestCase):
 
         email = "Test@TEST.com"
 
-        user = get_user_model().objects.create_user(
+        user = UserModel.objects.create_user(
             email=email,
             password="Testpass123",
         )
@@ -36,17 +38,16 @@ class ModelTests(TestCase):
         """new user with no email raises error"""
 
         with self.assertRaises(ValueError):
-            get_user_model().objects.create_user(
+            UserModel.objects.create_user(
                 email=None,
                 password="Testpass123",
             )
 
-    def test_create_new_superuser(self) -> None:
-        """create new superuser"""
+    def test_new_user_is_saved(self) -> None:
+        """new user is saved"""
 
-        user = get_user_model().objects.create_superuser(
+        user = UserModel.objects.create_user(
             email="test@test.com",
             password="Testpass123",
         )
-        self.assertTrue(user.is_superuser)
-        self.assertTrue(user.is_staff)
+        self.assertIsNotNone(user.pk)
